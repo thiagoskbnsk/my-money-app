@@ -24,7 +24,7 @@ export function update(values) {
 
 function submit(values, method) {
   return dispatch => {
-    const id = value._id ? values._id : ''
+    const id = values._id ? values._id : ''
     axios[method](`${BASE_URL}/billingCycles/${id}`, values)
     .then(resp => {
       toastr.success('Sucesso', 'Operação realizada com sucesso')
