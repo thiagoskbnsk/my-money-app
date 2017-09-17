@@ -15,20 +15,29 @@ export function getList() {
 }
 
 export function create(values) {
+  return submit(values, 'post')
+}
+
+export function update(values) {
+  return submit(values, 'put')
+}
+
+function submit(values, method) {
   return dispatch => {
-    axios.post(`${BASE_URL}/billingCycles`, values)
-        .then(resp => {
-          toastr.success('Sucesso', 'Operação realizada com sucesso')
-          dispatch([
-            resetForm('billingCycleForm'),
-            getList(),
-            selectTab('tabList'),
-            showTabs('tabList', 'tabC')
-          ])
-        })
-        .catch(e => {
-          e.response.data.errors.forEach(error => toastr.error('Erro', error))
-        })
+    const id = value._id ? values._id : ''
+    axios[method](`${BASE_URL}/billingCycles/${id}`, values)
+    .then(resp => {
+      toastr.success('Sucesso', 'Operação realizada com sucesso')
+      dispatch([
+        resetForm('billingCycleForm'),
+        getList(),
+        selectTab('tabList'),
+        showTabs('tabList', 'tabC')
+      ])
+    })
+    .catch(e => {
+      e.response.data.errors.forEach(error => toastr.error('Erro', error))
+    })
   }
 }
 
